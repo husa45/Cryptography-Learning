@@ -1,0 +1,30 @@
+import socket
+import os
+import Crypto.Util.Padding
+from Crypto.Util import number
+from Crypto.Cipher import ChaCha20
+from hashlib import sha256
+from importlib.machinery import SourceFileLoader
+from base64 import b64encode
+SERVER_PORT=7777
+SERVER_IP="127.0.0.1"
+GENERATOR_PICKED=3
+PRIME_GROUP=17
+KEY_LENGTH=256
+message="Crypto is func ,isnt it ?"
+def convert_to_bytes(number)->'bytes':
+    byte_count = (number.bit_length() + 7) // 8
+    return number.to_bytes(byte_count, "big")
+def SendData(key:'bytes',client_socket)->'None':
+    """
+    THis fucntion lets you choose a file from the system ,to send it encrypted of the network using AES-ECB
+    :return: Nothing
+    """
+    chacha20_ = ChaCha20.new(key=key)
+    client_socket.sendall(b64encode(chacha20_.nonce))
+    while True:
+        path=input("Enter the path to file you want to send :\n").strip()
+        if not os.path.exists(path):
+                print("Invalid path supplied ,make sure you supply a correct path")
+        elif not os.path.isfile(path):
+         
